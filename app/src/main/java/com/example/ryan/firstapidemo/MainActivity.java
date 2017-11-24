@@ -19,49 +19,49 @@ import android.support.v7.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RequestInterface requestInterface;
-    private RecyclerView recyclerView;
-    private List<CakeModel> cakeModels;
+//    private RequestInterface requestInterface;
+//    private RecyclerView recyclerView;
+//    private List<CakeModel> cakeModels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvCakes) ;
-
-        requestInterface = ServerConnection.getServerConnection();
-        requestInterface.getCakesList()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<List<CakeModel>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<CakeModel> value) {
-
-                        cakeModels = value;
-
-                        for(CakeModel c:value){
-                            Log.i("CakeList" , c.getTitle());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                        initializeRecyclerView();
-
-                    }
-                });
+//        recyclerView = (RecyclerView) findViewById(R.id.rvCakes) ;
+//
+//        requestInterface = ServerConnection.getServerConnection();
+//        requestInterface.getCakesList()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Observer<List<CakeModel>>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<CakeModel> value) {
+//
+//                        cakeModels = value;
+//
+//                        for(CakeModel c:value){
+//                            Log.i("CakeList" , c.getTitle());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                        initializeRecyclerView();
+//
+//                    }
+//                });
 
     }
 
