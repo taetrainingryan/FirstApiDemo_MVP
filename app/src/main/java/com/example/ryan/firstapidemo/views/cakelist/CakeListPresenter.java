@@ -48,6 +48,5 @@ public class CakeListPresenter <V extends ICakeListMvpView>
 
                      })
             );
-
     }
 }
