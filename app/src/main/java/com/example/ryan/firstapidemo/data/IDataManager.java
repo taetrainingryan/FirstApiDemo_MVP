@@ -9,6 +9,4 @@ import com.example.ryan.firstapidemo.data.network.services.ApiHelper;
 public interface IDataManager extends ApiHelper {
 
 
-
-
 }

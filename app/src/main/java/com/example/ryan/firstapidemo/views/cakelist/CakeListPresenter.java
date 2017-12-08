@@ -7,6 +7,8 @@ import com.example.ryan.firstapidemo.views.ui.utils.rx.SchedulerProvider;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
@@ -20,6 +22,7 @@ public class CakeListPresenter <V extends ICakeListMvpView>
         implements ICakeListMvpPresenter<V>{
 
 
+    @Inject
     public CakeListPresenter(IDataManager dataManager, SchedulerProvider schedulerProvider, CompositeDisposable compositeDisposable) {
         super(dataManager, schedulerProvider, compositeDisposable);
     }

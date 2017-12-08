@@ -6,19 +6,24 @@ import com.example.ryan.firstapidemo.model.CakeModel;
 
 import java.util.List;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import io.reactivex.Observable;
 
 /**
  * Created by Ryan on 24/11/2017.
  */
 
+@Singleton
 public class AppApiHelper implements ApiHelper{
 
-    private RequestInterface requestInterface;
+    RequestInterface requestInterface;
 
-    public AppApiHelper() {
-
-        requestInterface = ServerConnection.getServerConnection();
+    @Inject
+    public AppApiHelper(RequestInterface requestInterface) {
+        //requestInterface = ServerConnection.getServerConnection();
+        this.requestInterface = requestInterface;
     }
 
     @Override

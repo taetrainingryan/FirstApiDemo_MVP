@@ -14,6 +14,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by Ryan on 22/11/2017.
  */
@@ -52,15 +55,14 @@ public class CakesAdapter extends RecyclerView.Adapter<CakesAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView cakeName, cakeDesc;
-        ImageView cakeImage;
+        @BindView(R.id.cakeName) TextView cakeName;
+        @BindView(R.id.cakeDesc) TextView cakeDesc;
+        @BindView(R.id.cakeImage) ImageView cakeImage;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            cakeName=(TextView)itemView.findViewById(R.id.cakeName);
-            cakeDesc=(TextView)itemView.findViewById(R.id.cakeDesc);
-            cakeImage=(ImageView)itemView.findViewById(R.id.cakeImage);
+            ButterKnife.bind(this, itemView);
 
         }
     }

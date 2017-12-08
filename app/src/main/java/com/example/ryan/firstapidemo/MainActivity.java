@@ -7,6 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
 import com.example.ryan.firstapidemo.data.AppDataManager;
+import com.example.ryan.firstapidemo.injection.components.ActivityComponent;
+import com.example.ryan.firstapidemo.injection.components.ApplicationComponent;
+import com.example.ryan.firstapidemo.injection.components.DaggerActivityComponent;
+import com.example.ryan.firstapidemo.injection.modules.ActivityModule;
 import com.example.ryan.firstapidemo.model.CakeModel;
 import com.example.ryan.firstapidemo.data.network.services.services.RequestInterface;
 import com.example.ryan.firstapidemo.data.network.services.services.ServerConnection;
@@ -16,6 +20,8 @@ import com.example.ryan.firstapidemo.views.ui.utils.rx.AppSchedulerProvider;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -23,21 +29,39 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import android.support.v7.widget.RecyclerView;
 
+import javax.inject.Inject;
+
 import static com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork.LOG_TAG;
 
 public class MainActivity extends AppCompatActivity implements ICakeListMvpView{
 
-      private RecyclerView recyclerView;
+    ActivityComponent activityComponent;
+
+    public ActivityComponent getActivityComponent() {
+        return activityComponent;
+    }
+
+    public void setActivityComponent(ActivityComponent activityComponent) {
+        this.activityComponent = activityComponent;
+    }
+
+    @BindView(R.id.rvCakes) RecyclerView recyclerView;
+    @BindView(R.id.swiperefresh) SwipeRefreshLayout swipeRefreshLayout;
+
+      //private RecyclerView recyclerView;
       private List<CakeModel> cakeModels;
-      private CakeListPresenter<MainActivity> cakeListPresenter;
-      private SwipeRefreshLayout swipeRefreshLayout;
+
+      @Inject
+      CakeListPresenter<MainActivity> cakeListPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        injectDagger();
+        ButterKnife.bind(this);
+
         initRecyclerView();
         initializePresenter();
         getData();
@@ -49,16 +73,25 @@ public class MainActivity extends AppCompatActivity implements ICakeListMvpView{
         cakeListPresenter.onCallCakeList();
     }
 
+    public void injectDagger(){
+        activityComponent = DaggerActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
+                .applicationComponent(((MyApp)getApplicationContext()).getApplicationComponent())
+                .build();
+
+        activityComponent.inject(this);
+    }
+
     public void initializePresenter(){
 
-        cakeListPresenter = new CakeListPresenter<>(new AppDataManager(), new AppSchedulerProvider(), new CompositeDisposable());
+        //cakeListPresenter = new CakeListPresenter<>(new AppDataManager(), new AppSchedulerProvider(), new CompositeDisposable());
         cakeListPresenter.onAttach(this);
 
     }
 
     public void initRecyclerView(){
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvCakes);
+        //recyclerView = (RecyclerView) findViewById(R.id.rvCakes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
         swipeRefreshLayout.setOnRefreshListener(

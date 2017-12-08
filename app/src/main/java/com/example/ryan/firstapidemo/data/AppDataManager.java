@@ -1,10 +1,17 @@
 package com.example.ryan.firstapidemo.data;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.example.ryan.firstapidemo.data.network.services.ApiHelper;
 import com.example.ryan.firstapidemo.data.network.services.AppApiHelper;
+import com.example.ryan.firstapidemo.injection.scope.ApplicationContext;
 import com.example.ryan.firstapidemo.model.CakeModel;
 
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import io.reactivex.Observable;
 
@@ -12,13 +19,16 @@ import io.reactivex.Observable;
  * Created by Ryan on 24/11/2017.
  */
 
+@Singleton
 public class AppDataManager implements IDataManager{
 
     private ApiHelper apiHelper;
 
-    public AppDataManager() {
+    @Inject
+    public AppDataManager(@ApplicationContext Context application, AppApiHelper appApiHelper) {
+        //apiHelper = new AppApiHelper();
 
-        apiHelper = new AppApiHelper();
+        this.apiHelper = appApiHelper;
     }
 
     @Override
